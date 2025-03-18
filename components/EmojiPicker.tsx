@@ -8,11 +8,11 @@ export default function EmojiPicker({ isVisible, children, onClose }: Props) {
   return (
     <View>
       <Modal animationType="slide" transparent visible={isVisible}>
-        <View>
-          <View>
-            <Text></Text>
-            <Pressable>
-              <MaterialIcons />
+        <View style={styles.modalContent}>
+          <View style={styles.titleContainer}>
+            <Text style={styles.title}>Choose a sticker</Text>
+            <Pressable onPress={onClose}>
+              <MaterialIcons name="close" color="#fff" size={12} />
             </Pressable>
           </View>
           {children}

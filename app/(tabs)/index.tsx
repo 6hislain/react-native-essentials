@@ -1,10 +1,13 @@
 import { useState } from "react";
 import Button from "@/components/Button";
+import { type ImageSource } from "expo-image";
+import EmojiList from "@/components/EmojiList";
 import { View, StyleSheet } from "react-native";
 import * as ImagePicker from "expo-image-picker";
 import IconButton from "@/components/IconButton";
 import ImageViewer from "@/components/ImageViewer";
 import EmojiPicker from "@/components/EmojiPicker";
+import EmojiSticker from "@/components/EmojiSticker";
 import CircleButton from "@/components/CircleButton";
 
 const PlaceholderImage = require("@/assets/images/partial-react-logo.png");
@@ -13,6 +16,9 @@ export default function HomeScreen() {
   const [showAppOptions, setShowAppOptions] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [selectedImage, setSelectedImage] = useState<string | undefined>(
+    undefined
+  );
+  const [pickedEmoji, setPickedEmoji] = useState<ImageSource | undefined>(
     undefined
   );
 
@@ -42,6 +48,9 @@ export default function HomeScreen() {
           imgSource={PlaceholderImage}
           selectedImage={selectedImage}
         />
+        {pickedEmoji && (
+          <EmojiSticker imageSize={40} stickerSource={pickedEmoji} />
+        )}
       </View>
       {showAppOptions ? (
         <View style={styles.optionsContainer}>
@@ -68,10 +77,9 @@ export default function HomeScreen() {
           />
         </View>
       )}
-      <EmojiPicker
-        isVisible={isModalVisible}
-        onClose={onModalClose}
-      ></EmojiPicker>
+      <EmojiPicker isVisible={isModalVisible} onClose={onModalClose}>
+        <EmojiList onSelect={setPickedEmoji} onCloseModal={onModalClose} />
+      </EmojiPicker>
     </View>
   );
 }
